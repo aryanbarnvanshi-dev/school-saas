@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{HERO_TITLE}} | CampusDesk</title>
+  <meta name="description" content="{{HERO_SUBTITLE}}">
+
+  <!-- OpenGraph / Social Meta Tags -->
+  <meta property="og:title" content="{{HERO_TITLE}} | CampusDesk">
+  <meta property="og:description" content="{{HERO_SUBTITLE}}">
+  <meta property="og:type" content="website">
+
+  <!-- Tailwind CSS & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hover-lift {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-lift:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.08), 0 8px 12px -6px rgba(15, 23, 42, 0.04);
+    }
+    .glass-header {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white min-h-screen flex flex-col">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-center sm:text-left gap-2">
+      <div class="flex items-center gap-2 mx-auto sm:mx-0">
+        <span class="bg-blue-500 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Cloud Engine</span>
+        <span class="text-slate-300 font-medium text-[11px] sm:text-xs">Lightning-Fast Multi-Tenant Subdomains &amp; Custom Domains on Cloudflare Edge</span>
+      </div>
+      <div class="hidden md:flex items-center gap-4 text-slate-400 text-[11px]">
+        <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> 512MB RAM Ultra-Low Footprint</span>
+        <span><i class="fa-solid fa-lock text-emerald-400 mr-1"></i> Free Auto SSL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-50 glass-header border-b border-slate-200 shadow-sm transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-3.5 group">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-graduation-cap text-xl"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">Campus<span class="text-blue-600">Desk</span></span>
+          <span class="block text-[10px] font-bold text-slate-400 tracking-wider uppercase -mt-0.5">School OS Platform</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-bold text-slate-600">
+        <a href="#features" class="hover:text-blue-600 transition-colors py-1">Platform Features</a>
+        <a href="#live-schools" class="hover:text-blue-600 transition-colors py-1">Partner Schools</a>
+        <a href="#pricing" class="hover:text-blue-600 transition-colors py-1">Institutional Pricing</a>
+        <a href="#demo-request" class="hover:text-blue-600 transition-colors py-1">Book a Demo</a>
+      </nav>
+
+      <!-- Portal Access CTAs & Mobile Button -->
+      <div class="flex items-center gap-3">
+        <a href="/admin" class="hidden sm:inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-blue-600 px-3.5 py-2.5 rounded-xl hover:bg-slate-100 transition-all border border-slate-200">
+          <i class="fa-solid fa-school text-blue-500"></i>
+          <span>School Admin</span>
+        </a>
+
+        <a href="/master" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-lg transition-all">
+          <i class="fa-solid fa-shield-halved text-blue-200"></i>
+          <span>Master Portal</span>
+        </a>
+
+        <!-- Mobile Drawer Hamburger -->
+        <button onclick="toggleLandingMenu()" id="landingMobileToggle" class="lg:hidden w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center transition border border-slate-200" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars text-lg" id="landingMobileIcon"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- MOBILE NAVIGATION DRAWER -->
+    <div id="landingMobileDrawer" class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl px-6 py-6 space-y-3 shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto">
+      <div class="grid grid-cols-2 gap-2 text-sm font-bold text-slate-700">
+        <a href="#features" onclick="toggleLandingMenu()" class="p-2.5 rounded-xl hover:bg-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-bolt text-blue-500"></i> Features
+        </a>
+        <a href="#live-schools" onclick="toggleLandingMenu()" class="p-2.5 rounded-xl hover:bg-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-school text-emerald-500"></i> Partner Schools
+        </a>
+        <a href="#pricing" onclick="toggleLandingMenu()" class="p-2.5 rounded-xl hover:bg-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-tag text-purple-500"></i> Pricing
+        </a>
+        <a href="#demo-request" onclick="toggleLandingMenu()" class="p-2.5 rounded-xl hover:bg-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-check text-amber-500"></i> Book Demo
+        </a>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 flex flex-col gap-2">
+        <a href="/admin" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-school text-blue-600"></i> School Admin Portal
+        </a>
+        <a href="/master" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-center text-xs flex items-center justify-center gap-2 shadow-md">
+          <i class="fa-solid fa-shield-halved"></i> Super Admin Master Console
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-blue-50/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      
+      <!-- Pill Badge -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-extrabold mb-8 shadow-sm">
+        <span class="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+        <span id="heroBadgeText">{{HERO_BADGE}}</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 max-w-5xl mx-auto leading-[1.14] mb-6">
+        <span id="heroTitleText">{{HERO_TITLE}}</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-base sm:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed font-normal" id="heroSubtitleText">
+        {{HERO_SUBTITLE}}
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto mb-16">
+        <a href="{{CTA_PRIMARY_LINK}}" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+          <span>{{CTA_PRIMARY_TEXT}}</span>
+          <i class="fa-solid fa-arrow-down text-xs"></i>
+        </a>
+        <a href="{{CTA_SECONDARY_LINK}}" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-extrabold text-sm sm:text-base border border-slate-300 shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-calendar-check text-blue-600"></i>
+          <span>{{CTA_SECONDARY_TEXT}}</span>
+        </a>
+      </div>
+
+      <!-- Platform Stats Counter Bar -->
+      <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 p-6 sm:p-8 bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-200/80" id="statsContainer">
+        <!-- Rendered by SSR / JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE PARTNER SCHOOLS SHOWCASE -->
+  <section id="live-schools" class="py-20 md:py-24 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs uppercase font-extrabold tracking-widest text-blue-600 mb-2 inline-block">Instant Multi-Tenancy In Action</span>
+        <h3 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Active Schools Powered by CampusDesk</h3>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Each institution operates on its own dedicated subdomain or custom domain with independent data isolation and zero downtime.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="schoolsGrid">
+        <!-- Injected dynamically by SSR / JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES & CAPABILITIES -->
+  <section id="features" class="py-20 md:py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs uppercase font-extrabold tracking-widest text-blue-600 mb-2 inline-block">Everything Your School Needs</span>
+        <h3 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Engineered for Academic Excellence &amp; Speed</h3>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Replace fragmented legacy tools with a unified platform built from first principles on an ultra-low-footprint 512MB RAM stack.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuresGrid">
+        <!-- Injected dynamically by SSR / JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TIERS -->
+  <section id="pricing" class="py-20 md:py-24 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs uppercase font-extrabold tracking-widest text-blue-600 mb-2 inline-block">Transparent Institutional Pricing</span>
+        <h3 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Affordable Plans for Every Educational Institution</h3>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Zero hidden hosting fees. Free automated SSL certificates. 100% white-label architecture.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto" id="pricingGrid">
+        <!-- Injected dynamically by SSR / JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOK A DEMO / CONTACT SECTION -->
+  <section id="demo-request" class="py-20 md:py-28 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-6 space-y-6">
+          <span class="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-500/30">Get Started Today</span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Ready to Transform Your School's Digital Presence?</h2>
+          <p class="text-slate-300 text-base leading-relaxed">
+            Fill out the form and our institutional onboarding team will configure your school's live subdomain and admin portal in under 15 minutes.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <div class="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+              <div class="w-12 h-12 rounded-xl bg-blue-600/30 border border-blue-500/40 flex items-center justify-center text-blue-400 text-xl shrink-0">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div>
+                <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Official Inquiries</div>
+                <div class="text-sm sm:text-base font-bold text-white mt-0.5" id="contactEmailDisplay">{{CONTACT_EMAIL}}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+              <div class="w-12 h-12 rounded-xl bg-emerald-600/30 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl shrink-0">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <div>
+                <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Instant WhatsApp Support</div>
+                <div class="text-sm sm:text-base font-bold text-white mt-0.5" id="contactWhatsappDisplay">{{CONTACT_WHATSAPP}}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
+              <div class="w-12 h-12 rounded-xl bg-amber-600/30 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl shrink-0">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div>
+                <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Helpline &amp; Onboarding Desk</div>
+                <div class="text-sm sm:text-base font-bold text-white mt-0.5" id="contactPhoneDisplay">{{CONTACT_PHONE}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lead Form Card -->
+        <div class="lg:col-span-6 bg-white rounded-3xl p-8 sm:p-10 text-slate-900 shadow-2xl border border-slate-100">
+          <div class="mb-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Free Onboarding</span>
+            <h3 class="text-2xl font-black text-slate-900 mt-0.5">Request Free Live Setup</h3>
+            <p class="text-slate-500 text-xs mt-1">Enter your school details to schedule a live walkthrough and claim your subdomain.</p>
+          </div>
+
+          <form id="demoInquiryForm" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">School / Institution Name *</label>
+              <input type="text" id="leadSchoolName" required placeholder="e.g. Cambridge Public School" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Contact Person *</label>
+                <input type="text" id="leadPerson" required placeholder="Principal / Trustee" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Mobile / WhatsApp *</label>
+                <input type="tel" id="leadPhone" required placeholder="+91 98765 43210" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Email Address</label>
+                <input type="email" id="leadEmail" placeholder="principal@school.edu.in" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">City / State</label>
+                <input type="text" id="leadCity" placeholder="e.g. New Delhi" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Any Specific Requirements?</label>
+              <textarea id="leadMessage" rows="2" placeholder="Tell us about current student strength, custom domain requirements, etc." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm font-medium"></textarea>
+            </div>
+
+            <button type="submit" id="leadSubmitBtn" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm sm:text-base shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2">
+              <span>Submit Demo Request</span>
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+
+            <div id="leadSuccessMsg" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold text-center">
+              🎉 Thank you! Your demo request has been submitted. Our onboarding team will contact you shortly on WhatsApp.
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-900 text-xs mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-md">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <span class="text-white font-extrabold text-sm">CampusDesk Platform</span>
+          <p class="text-[11px] text-slate-500 mt-0.5">© 2026 CampusDesk. Engineered for High Reliability.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-wrap justify-center gap-6 font-semibold">
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#live-schools" class="hover:text-white transition-colors">Partner Schools</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+        <a href="/admin" class="hover:text-white transition-colors">School Admin</a>
+        <a href="/master" class="hover:text-white transition-colors">Master Console</a>
+      </div>
+
+      <div class="text-slate-600 text-[11px]">
+        Hosted with Wildcard SSL on Cloudflare Edge
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FOR HYDRATION & INTERACTIONS -->
+  <script>
+    const CONFIG = window.__SAAS_CONFIG__ || {};
+    const SCHOOLS = window.__LIVE_SCHOOLS__ || [];
+
+    // Toggle Mobile Drawer on Landing Page
+    function toggleLandingMenu() {
+      const drawer = document.getElementById('landingMobileDrawer');
+      const icon = document.getElementById('landingMobileIcon');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        drawer.classList.add('hidden');
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    }
+
+    // Render Stats Bar
+    const statsContainer = document.getElementById('statsContainer');
+    if (statsContainer && CONFIG.stats_json && Array.isArray(CONFIG.stats_json)) {
+      statsContainer.innerHTML = CONFIG.stats_json.map(s => `
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-black text-blue-600">${s.value}</div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1">${s.label}</div>
+        </div>
+      `).join('');
+    }
+
+    // Render Live Schools Showcase
+    const schoolsGrid = document.getElementById('schoolsGrid');
+    if (schoolsGrid) {
+      if (SCHOOLS.length === 0) {
+        schoolsGrid.innerHTML = `
+          <div class="col-span-3 text-center py-10 bg-white rounded-3xl border border-slate-200 text-slate-400">
+            <i class="fa-solid fa-school text-3xl mb-2 text-slate-300"></i>
+            <div>No live schools configured yet. Add schools in Super Admin panel!</div>
+          </div>
+        `;
+      } else {
+        schoolsGrid.innerHTML = SCHOOLS.map(sc => {
+          const liveUrl = sc.domain ? `https://${sc.domain}` : `https://${sc.slug}.campusdesk.site`;
+          const initial = (sc.name || 'S').charAt(0).toUpperCase();
+
+          return `
+            <div class="bg-white rounded-3xl border border-slate-200/90 p-7 hover-lift flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center font-black text-xl group-hover:scale-105 transition-transform shadow-sm">
+                    ${initial}
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Live Portal</span>
+                  </span>
+                </div>
+                
+                <h4 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">${sc.name}</h4>
+                <div class="text-xs font-semibold text-slate-400 font-mono mt-1 break-all">${sc.domain || (sc.slug + '.campusdesk.site')}</div>
+                <p class="text-xs text-slate-500 mt-3 line-clamp-2 leading-relaxed">Official Institutional Portal with dynamic circulars, fee charts, and student toppers showcase.</p>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="${liveUrl}" target="_blank" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5">
+                  <span>Visit School Site</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+                <a href="/admin" class="text-xs font-bold text-slate-400 hover:text-slate-600">
+                  <span>Admin Login →</span>
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Render Features Grid
+    const featuresGrid = document.getElementById('featuresGrid');
+    if (featuresGrid && CONFIG.features_json && Array.isArray(CONFIG.features_json)) {
+      const iconMap = {
+        'globe': 'fa-globe',
+        'file-text': 'fa-file-lines',
+        'bell': 'fa-bell',
+        'award': 'fa-trophy',
+        'credit-card': 'fa-credit-card',
+        'zap': 'fa-bolt'
+      };
+      featuresGrid.innerHTML = CONFIG.features_json.map(f => `
+        <div class="bg-white rounded-3xl p-8 border border-slate-200/90 hover-lift flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xl mb-6 shadow-sm">
+              <i class="fa-solid ${iconMap[f.icon] || 'fa-star'}"></i>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2 leading-snug">${f.title}</h4>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">${f.desc}</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-blue-600 flex items-center gap-1">
+            <span>Built for Modern Campuses</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Pricing Grid
+    const pricingGrid = document.getElementById('pricingGrid');
+    if (pricingGrid && CONFIG.pricing_json && Array.isArray(CONFIG.pricing_json)) {
+      pricingGrid.innerHTML = CONFIG.pricing_json.map((p, idx) => {
+        const isFeatured = idx === 1;
+        return `
+          <div class="rounded-3xl p-8 border ${isFeatured ? 'border-2 border-blue-600 shadow-2xl relative bg-blue-50/20' : 'border-slate-200/90 bg-white shadow-sm'} flex flex-col justify-between hover-lift">
+            <div>
+              ${p.badge ? `
+                <div class="inline-block px-3 py-1 rounded-full ${isFeatured ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-700'} text-xs font-extrabold mb-4">
+                  ${p.badge}
+                </div>
+              ` : ''}
+              <h4 class="text-2xl font-black text-slate-900">${p.name}</h4>
+              <p class="text-xs text-slate-500 mt-1 mb-6">${p.desc}</p>
+              
+              <div class="flex items-baseline gap-1 mb-6">
+                <span class="text-4xl font-black text-slate-900">${p.price}</span>
+                <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">${p.period || ''}</span>
+              </div>
+
+              <div class="border-t border-slate-200/80 pt-6 mb-8 space-y-3">
+                ${(p.features || []).map(feat => `
+                  <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 text-sm shrink-0"></i>
+                    <span>${feat}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <a href="#demo-request" class="w-full py-3.5 rounded-xl ${isFeatured ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/30' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'} text-center font-black text-xs sm:text-sm transition-all block">
+              Choose ${p.name}
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Lead Inquiry Form Submission Handler
+    const inquiryForm = document.getElementById('demoInquiryForm');
+    if (inquiryForm) {
+      inquiryForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('leadSubmitBtn');
+        const successMsg = document.getElementById('leadSuccessMsg');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+
+        const payload = {
+          school_name: document.getElementById('leadSchoolName').value.trim(),
+          contact_person: document.getElementById('leadPerson').value.trim(),
+          phone: document.getElementById('leadPhone').value.trim(),
+          email: document.getElementById('leadEmail').value.trim(),
+          city: document.getElementById('leadCity').value.trim(),
+          message: document.getElementById('leadMessage').value.trim(),
+        };
+
+        try {
+          const res = await fetch('/api/saas/inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success) {
+            inquiryForm.reset();
+            successMsg.classList.remove('hidden');
+            submitBtn.innerHTML = 'Submitted Successfully ✓';
+          } else {
+            alert('Error: ' + (data.error || 'Submission failed'));
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit Demo Request';
+          }
+        } catch (err) {
+          alert('Network error. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Submit Demo Request';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

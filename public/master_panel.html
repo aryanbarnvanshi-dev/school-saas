@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Platform Console | CampusDesk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-600 selection:text-white" style="display:none;" id="masterBody">
+
+  <!-- Ambient Glow Effects -->
+  <div class="fixed -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed top-1/2 -right-40 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Top Navbar -->
+  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg text-white leading-none">Campus<span class="text-indigo-400">Desk</span></span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">SUPER ADMIN</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">Multi-Tenant Cloud Control Console</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/" target="_blank" class="hidden sm:flex text-xs text-slate-300 hover:text-white items-center gap-1.5 bg-slate-850 hover:bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-700/80 transition">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-blue-400"></i>
+          <span>View Landing Site</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Neon DB Active</span>
+        </div>
+
+        <button onclick="handleLogout()" class="text-xs bg-red-950/40 hover:bg-red-900/60 text-red-400 border border-red-800/40 px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+    
+    <!-- Hero Banner & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-900 border border-indigo-500/20 shadow-xl">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold mb-3">
+          <i class="fa-solid fa-layer-group"></i> Automated Multi-Tenancy Hub
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">Central Institutional Management</h2>
+        <p class="text-slate-400 text-sm max-w-2xl leading-relaxed">
+          Onboard new schools with instantaneous subdomains, link client custom domains with zero-cost SSL, and edit your SaaS marketing presence live.
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('onboardModal').classList.remove('hidden')" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2 text-sm whitespace-nowrap">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Onboard New School</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Metrics Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      
+      <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Active Schools</div>
+          <div class="text-3xl font-black text-white" id="statTotalSchools">-</div>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl border border-blue-500/20">
+          <i class="fa-solid fa-school"></i>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Custom Domains</div>
+          <div class="text-3xl font-black text-indigo-400" id="statActiveDomains">-</div>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl border border-indigo-500/20">
+          <i class="fa-solid fa-globe"></i>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Demo Inquiries</div>
+          <div class="text-3xl font-black text-amber-400" id="statTotalLeads">-</div>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl border border-amber-500/20">
+          <i class="fa-solid fa-inbox"></i>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">System Memory</div>
+          <div class="text-2xl font-black text-emerald-400">~64 MB</div>
+          <div class="text-[10px] text-slate-500 font-semibold mt-0.5">512MB RAM Limit</div>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl border border-emerald-500/20">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-800/80 pb-3 mb-6 overflow-x-auto">
+      <button onclick="switchTab('schools')" id="tabBtnSchools" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-solid fa-school"></i>
+        <span>Institutions &amp; Tenants</span>
+      </button>
+      <button onclick="switchTab('landingCms')" id="tabBtnLandingCms" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-solid fa-sliders"></i>
+        <span>SaaS Landing CMS</span>
+      </button>
+      <button onclick="switchTab('leads')" id="tabBtnLeads" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-solid fa-envelope-open-text"></i>
+        <span>Demo Requests &amp; Leads</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: SCHOOLS & TENANTS -->
+    <section id="tabSchools" class="block space-y-4">
+      
+      <!-- Table Controls Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div class="relative w-full sm:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+          <input type="text" id="schoolSearchInput" oninput="filterSchools()" placeholder="Search by name, slug or domain..." class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+        <button onclick="loadSchools()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition w-fit">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Refresh Database</span>
+        </button>
+      </div>
+
+      <!-- Schools Table -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950/80 text-xs uppercase text-slate-400 font-bold border-b border-slate-800 tracking-wider">
+              <tr>
+                <th class="px-6 py-4">Institution Name</th>
+                <th class="px-6 py-4">Subdomain Slug</th>
+                <th class="px-6 py-4">Custom Domain</th>
+                <th class="px-6 py-4">Status</th>
+                <th class="px-6 py-4 text-right">Quick Actions</th>
+              </tr>
+            </thead>
+            <tbody id="schoolsTableBody" class="divide-y divide-slate-800/60 font-medium">
+              <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-slate-500">
+                  <i class="fa-solid fa-spinner fa-spin text-lg mr-2"></i> Fetching schools from Neon PostgreSQL...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SAAS LANDING PAGE CMS -->
+    <section id="tabLandingCms" class="hidden">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-800">
+          <div>
+            <h3 class="text-xl font-extrabold text-white flex items-center gap-2.5">
+              <i class="fa-solid fa-sliders text-indigo-400"></i>
+              <span>SaaS Landing Page Live CMS</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">Changes made here are stored in Neon PostgreSQL and instantly rendered on <code class="text-indigo-400 font-mono font-bold">campusdesk.site</code>.</p>
+          </div>
+          <a href="/" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-indigo-300 border border-slate-700 flex items-center gap-2 transition w-fit">
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            <span>Preview Live Site</span>
+          </a>
+        </div>
+
+        <form id="landingCmsForm" onsubmit="handleSaveLandingCms(event)" class="space-y-6">
+          
+          <!-- Hero Section Box -->
+          <div class="bg-slate-950/70 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+            <div class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-indigo-400">
+              <i class="fa-solid fa-bullhorn"></i>
+              <span>Hero Header &amp; Announcement</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Hero Pill Badge</label>
+                <input type="text" id="cmsHeroBadge" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Primary CTA Button Text</label>
+                <input type="text" id="cmsCtaPrimaryText" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Main Headline (H1)</label>
+              <input type="text" id="cmsHeroTitle" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-indigo-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Hero Subtitle Description</label>
+              <textarea id="cmsHeroSubtitle" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 leading-relaxed"></textarea>
+            </div>
+          </div>
+
+          <!-- Contact & WhatsApp Details -->
+          <div class="bg-slate-950/70 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+            <div class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-400">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Official Support, Helpline &amp; WhatsApp</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Official Support Email</label>
+                <input type="email" id="cmsContactEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Helpline Phone Number</label>
+                <input type="text" id="cmsContactPhone" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">WhatsApp Number (e.g. +919876543210)</label>
+                <input type="text" id="cmsContactWhatsapp" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Button Bar -->
+          <div class="flex items-center justify-between pt-4">
+            <div id="cmsSaveToast" class="hidden px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center gap-2">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Changes Saved &amp; Live on campusdesk.site!</span>
+            </div>
+            <button type="submit" id="btnSaveCms" class="ml-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-2 text-sm">
+              <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+              <span>Publish Changes Live</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 3: DEMO LEADS & INQUIRIES -->
+    <section id="tabLeads" class="hidden space-y-4">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div class="p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="font-extrabold text-white text-lg flex items-center gap-2">
+              <i class="fa-solid fa-inbox text-amber-400"></i>
+              <span>Demo Requests &amp; Prospective School Inquiries</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Institutions that submitted demo booking forms on <code class="font-mono text-indigo-400 font-bold">campusdesk.site</code>.</p>
+          </div>
+          <button onclick="loadLeads()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition w-fit">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Refresh Leads</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950/80 text-xs uppercase text-slate-400 font-bold border-b border-slate-800 tracking-wider">
+              <tr>
+                <th class="px-6 py-4">School Name</th>
+                <th class="px-6 py-4">Contact Person</th>
+                <th class="px-6 py-4">Phone / WhatsApp</th>
+                <th class="px-6 py-4">City</th>
+                <th class="px-6 py-4">Submitted Date</th>
+                <th class="px-6 py-4 text-right">Direct Connect</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody" class="divide-y divide-slate-800/60 font-medium">
+              <tr>
+                <td colspan="6" class="px-6 py-8 text-center text-slate-500">
+                  <i class="fa-solid fa-spinner fa-spin text-lg mr-2"></i> Loading demo requests...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Onboard School Modal -->
+  <div id="onboardModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-lg p-6 sm:p-8 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold text-lg border border-indigo-500/20">
+            <i class="fa-solid fa-school"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-lg text-white">Onboard New Institution</h3>
+            <p class="text-xs text-slate-400">Instant multi-tenant subdomain provisioning</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('onboardModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleOnboard(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">School Full Name *</label>
+          <input type="text" id="schoolName" oninput="autoGenerateSlug(this.value)" required placeholder="e.g. Cambridge International School" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Subdomain Slug *</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden focus-within:border-indigo-500">
+            <input type="text" id="schoolSlug" required placeholder="cambridge" class="w-full bg-transparent px-4 py-2.5 text-sm text-white focus:outline-none font-mono">
+            <span class="text-xs text-slate-400 px-3.5 font-mono font-bold bg-slate-800/60 py-2.5">.campusdesk.site</span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">This subdomain is instantly live across Cloudflare Edge without DNS delays.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Custom Domain (Optional)</label>
+          <input type="text" id="schoolDomain" placeholder="e.g. www.cambridgeschool.edu.in" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 font-mono">
+        </div>
+
+        <div class="pt-4 flex justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="document.getElementById('onboardModal').classList.add('hidden')" class="px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-white">Cancel</button>
+          <button type="submit" id="btnSubmitOnboard" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-lg transition">Create School Portal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Configure Custom Domain Modal -->
+  <div id="editDomainModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+    <div class="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-lg p-6 sm:p-8 shadow-2xl">
+      <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-500/20">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">Configure Custom Domain</h3>
+            <p id="editDomainSchoolName" class="text-xs text-slate-400 mt-0.5">School Name</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeEditDomainModal()" class="text-slate-400 hover:text-white transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveCustomDomain(event)" class="space-y-4">
+        <input type="hidden" id="editDomainTenantId">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Custom Domain Hostname</label>
+          <input type="text" id="editDomainInput" placeholder="e.g. www.dpsdelhi.edu.in" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 font-mono">
+        </div>
+
+        <!-- Instructional Guidance Box -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-2 text-slate-300">
+          <div class="font-bold text-amber-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-info-circle"></i> Instructions for School IT Admin:
+          </div>
+          <p class="text-slate-400">Ask the school registrar to add 1 DNS record in GoDaddy/Hostinger:</p>
+          <div class="font-mono bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-[11px] text-indigo-300">
+            Type: CNAME | Name: www | Target: campusdesk.site
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="closeEditDomainModal()" class="px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-white">Cancel</button>
+          <button type="submit" id="btnSaveDomain" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-lg transition">Save Custom Domain</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Strict Super Admin Authentication Gate
+    const authToken = localStorage.getItem('school_saas_token');
+    const authUser = JSON.parse(localStorage.getItem('school_saas_user') || 'null');
+
+    if (!authToken || !authUser || authUser.role !== 'super_admin') {
+      window.location.href = '/login';
+    } else {
+      document.getElementById('masterBody').style.display = 'block';
+    }
+
+    let allSchools = [];
+
+    function autoGenerateSlug(name) {
+      const slugInput = document.getElementById('schoolSlug');
+      if (slugInput && !slugInput.dataset.manual) {
+        slugInput.value = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 40);
+      }
+    }
+
+    document.getElementById('schoolSlug')?.addEventListener('input', function() {
+      this.dataset.manual = 'true';
+    });
+
+    function getAuthHeaders() {
+      return {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (localStorage.getItem('school_saas_token') || ''),
+      };
+    }
+
+    async function authFetch(url, options = {}) {
+      options.headers = { ...getAuthHeaders(), ...(options.headers || {}) };
+      const res = await fetch(url, options);
+      if (res.status === 401 || res.status === 403) {
+        handleLogout();
+        throw new Error('Unauthorized');
+      }
+      return res;
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('school_saas_token');
+      localStorage.removeItem('school_saas_user');
+      window.location.href = '/login';
+    }
+
+    function esc(str) {
+      if (str === null || str === undefined) return '';
+      const d = document.createElement('div');
+      d.textContent = String(str);
+      return d.innerHTML;
+    }
+
+    // Tab Switcher
+    function switchTab(tab) {
+      const tabs = ['schools', 'landingCms', 'leads'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+        const content = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (t === tab) {
+          btn.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition whitespace-nowrap';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap';
+          content.classList.add('hidden');
+        }
+      });
+
+      if (tab === 'landingCms') loadLandingCms();
+      if (tab === 'leads') loadLeads();
+    }
+
+    // ----------------------------------------------------
+    // TAB 1: SCHOOLS LOGIC
+    // ----------------------------------------------------
+    async function loadSchools() {
+      try {
+        const res = await authFetch('/api/super-admin/schools');
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+
+        allSchools = json.schools || [];
+        document.getElementById('statTotalSchools').innerText = allSchools.length;
+        document.getElementById('statActiveDomains').innerText = allSchools.filter(s => s.domain).length;
+
+        renderSchools(allSchools);
+      } catch (err) {
+        document.getElementById('schoolsTableBody').innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-red-400 font-semibold">Failed to load schools: ${esc(err.message)}</td></tr>`;
+      }
+    }
+
+    function filterSchools() {
+      const q = (document.getElementById('schoolSearchInput')?.value || '').toLowerCase().trim();
+      if (!q) {
+        renderSchools(allSchools);
+        return;
+      }
+      const filtered = allSchools.filter(s => 
+        (s.name && s.name.toLowerCase().includes(q)) || 
+        (s.slug && s.slug.toLowerCase().includes(q)) || 
+        (s.domain && s.domain.toLowerCase().includes(q))
+      );
+      renderSchools(filtered);
+    }
+
+    function renderSchools(schools) {
+      const tbody = document.getElementById('schoolsTableBody');
+      if (schools.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500 font-medium">No schools matching your query.</td></tr>';
+        return;
+      }
+
+      const rootDomain = window.location.hostname.replace(/^master\./, '').replace(/^admin\./, '');
+      tbody.innerHTML = schools.map(s => {
+        const liveSubdomainUrl = s.domain ? `https://${s.domain}` : `https://${s.slug}.${rootDomain}`;
+        const initial = (s.name || 'S').charAt(0).toUpperCase();
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-sm flex-shrink-0">
+                  ${initial}
+                </div>
+                <div>
+                  <div class="font-bold text-white leading-tight">${esc(s.name)}</div>
+                  <div class="text-[11px] text-slate-500 font-mono mt-0.5">${esc(s.id.substring(0, 8))}...</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <a href="${liveSubdomainUrl}" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-xs bg-slate-950 hover:bg-indigo-950/40 px-2.5 py-1 rounded-lg border border-slate-800 text-indigo-400 hover:text-indigo-300 transition">
+                <span>${esc(s.slug)}.${rootDomain}</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </a>
+            </td>
+            <td class="px-6 py-4">
+              ${s.domain ? `
+                <span class="inline-flex items-center gap-1.5 text-xs text-amber-400 font-mono bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+                  <i class="fa-solid fa-globe text-[10px]"></i>
+                  <span>${esc(s.domain)}</span>
+                </span>
+              ` : `
+                <span class="text-xs text-slate-500 italic">Not Assigned</span>
+              `}
+            </td>
+            <td class="px-6 py-4">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live
+              </span>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                <button onclick="handleEditDomainClick(this)" data-id="${esc(s.id)}" data-name="${esc(s.name)}" data-domain="${esc(s.domain || '')}" class="text-xs bg-slate-850 hover:bg-slate-800 text-amber-400 px-3 py-1.5 rounded-lg border border-slate-700/80 transition flex items-center gap-1 font-semibold" title="Configure Custom Domain">
+                  <i class="fa-solid fa-globe text-xs"></i> Domain
+                </button>
+                <a href="/admin?school=${encodeURIComponent(s.slug)}" target="_blank" class="text-xs bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 px-3 py-1.5 rounded-lg border border-indigo-500/30 transition flex items-center gap-1 font-semibold">
+                  <i class="fa-solid fa-lock-open text-xs"></i> CMS
+                </a>
+                <a href="${liveSubdomainUrl}" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition" title="Visit Public Portal">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </a>
+                <button onclick="handleDeleteClick(this)" data-id="${esc(s.id)}" data-name="${esc(s.name)}" class="text-xs bg-red-500/10 hover:bg-red-500/20 text-red-400 px-2.5 py-1.5 rounded-lg border border-red-500/20 transition" title="Delete Institution">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function handleDeleteClick(btn) {
+      const id = btn.getAttribute('data-id');
+      const name = btn.getAttribute('data-name');
+      deleteSchool(id, name);
+    }
+
+    async function handleOnboard(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitOnboard');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Provisioning...';
+
+      const payload = {
+        name: document.getElementById('schoolName').value.trim(),
+        slug: document.getElementById('schoolSlug').value.trim().toLowerCase(),
+        domain: document.getElementById('schoolDomain').value.trim().toLowerCase(),
+      };
+
+      try {
+        const res = await authFetch('/api/super-admin/schools', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+
+        document.getElementById('onboardModal').classList.add('hidden');
+        document.getElementById('schoolName').value = '';
+        document.getElementById('schoolSlug').value = '';
+        document.getElementById('schoolDomain').value = '';
+        loadSchools();
+      } catch (err) {
+        alert('Error onboarding school: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Create School Portal';
+      }
+    }
+
+    async function deleteSchool(id, name) {
+      if (!confirm(`Warning: Are you sure you want to permanently delete "${name}"? This removes all notices, toppers, fees, and staff data for this tenant.`)) return;
+      try {
+        const res = await authFetch('/api/super-admin/schools', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        loadSchools();
+      } catch (err) {
+        alert('Delete failed: ' + err.message);
+      }
+    }
+
+    function handleEditDomainClick(btn) {
+      const id = btn.getAttribute('data-id');
+      const name = btn.getAttribute('data-name');
+      const domain = btn.getAttribute('data-domain');
+      document.getElementById('editDomainTenantId').value = id;
+      document.getElementById('editDomainSchoolName').innerText = name;
+      document.getElementById('editDomainInput').value = domain || '';
+      document.getElementById('editDomainModal').classList.remove('hidden');
+    }
+
+    function closeEditDomainModal() {
+      document.getElementById('editDomainModal').classList.add('hidden');
+    }
+
+    async function handleSaveCustomDomain(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveDomain');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+      const tenant_id = document.getElementById('editDomainTenantId').value;
+      const domain = document.getElementById('editDomainInput').value.trim();
+
+      try {
+        const res = await authFetch('/api/super-admin/schools', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tenant_id, domain }),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        closeEditDomainModal();
+        loadSchools();
+      } catch (err) {
+        alert('Domain update failed: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Save Custom Domain';
+      }
+    }
+
+    // ----------------------------------------------------
+    // TAB 2: SAAS LANDING PAGE CMS LOGIC
+    // ----------------------------------------------------
+    async function loadLandingCms() {
+      try {
+        const res = await authFetch('/api/super-admin/landing');
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        const cfg = json.config || {};
+
+        document.getElementById('cmsHeroBadge').value = cfg.hero_badge || '';
+        document.getElementById('cmsHeroTitle').value = cfg.hero_title || '';
+        document.getElementById('cmsHeroSubtitle').value = cfg.hero_subtitle || '';
+        document.getElementById('cmsCtaPrimaryText').value = cfg.cta_primary_text || '';
+        document.getElementById('cmsContactEmail').value = cfg.contact_email || '';
+        document.getElementById('cmsContactPhone').value = cfg.contact_phone || '';
+        document.getElementById('cmsContactWhatsapp').value = cfg.contact_whatsapp || '';
+      } catch (err) {
+        console.error('Failed to load Landing CMS configuration:', err);
+      }
+    }
+
+    async function handleSaveLandingCms(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveCms');
+      const toast = document.getElementById('cmsSaveToast');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving to Neon DB...';
+
+      const payload = {
+        hero_badge: document.getElementById('cmsHeroBadge').value.trim(),
+        hero_title: document.getElementById('cmsHeroTitle').value.trim(),
+        hero_subtitle: document.getElementById('cmsHeroSubtitle').value.trim(),
+        cta_primary_text: document.getElementById('cmsCtaPrimaryText').value.trim(),
+        contact_email: document.getElementById('cmsContactEmail').value.trim(),
+        contact_phone: document.getElementById('cmsContactPhone').value.trim(),
+        contact_whatsapp: document.getElementById('cmsContactWhatsapp').value.trim(),
+      };
+
+      try {
+        const res = await authFetch('/api/super-admin/landing', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4000);
+      } catch (err) {
+        alert('Failed to save Landing CMS: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up text-xs"></i> <span>Publish Changes Live</span>';
+      }
+    }
+
+    // ----------------------------------------------------
+    // TAB 3: DEMO LEADS LOGIC
+    // ----------------------------------------------------
+    async function loadLeads() {
+      try {
+        const res = await authFetch('/api/super-admin/leads');
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+
+        const leads = json.leads || [];
+        document.getElementById('statTotalLeads').innerText = leads.length;
+
+        const tbody = document.getElementById('leadsTableBody');
+        if (leads.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-slate-500 font-medium">No demo requests received yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = leads.map(l => {
+          const dateStr = new Date(l.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+          const cleanPhone = (l.phone || '').replace(/[^0-9]/g, '');
+          const waUrl = `https://wa.me/${cleanPhone}?text=Hello%20${encodeURIComponent(l.contact_person)},%20thank%20you%20for%20requesting%20a%20demo%20of%20CampusDesk%20for%20${encodeURIComponent(l.school_name)}.`;
+
+          return `
+            <tr class="hover:bg-slate-800/40 transition">
+              <td class="px-6 py-4">
+                <div class="font-bold text-white leading-tight">${esc(l.school_name)}</div>
+                ${l.message ? `<div class="text-xs text-slate-400 mt-1 max-w-xs truncate" title="${esc(l.message)}">"${esc(l.message)}"</div>` : ''}
+              </td>
+              <td class="px-6 py-4">
+                <span class="text-white text-xs font-bold">${esc(l.contact_person)}</span>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-slate-300">
+                ${esc(l.phone)}
+                ${l.email ? `<div class="text-[11px] text-slate-500 font-sans">${esc(l.email)}</div>` : ''}
+              </td>
+              <td class="px-6 py-4 text-xs text-slate-400">
+                ${esc(l.city || 'N/A')}
+              </td>
+              <td class="px-6 py-4 text-xs text-slate-500 font-mono">
+                ${dateStr}
+              </td>
+              <td class="px-6 py-4 text-right">
+                <a href="${waUrl}" target="_blank" class="inline-flex items-center gap-1.5 text-xs bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-xl font-bold transition">
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>WhatsApp</span>
+                </a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        document.getElementById('leadsTableBody').innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-red-400 font-semibold">Failed to load leads: ${esc(err.message)}</td></tr>`;
+      }
+    }
+
+    // Initial Load
+    loadSchools();
+    loadLeads();
+  </script>
+</body>
+</html>
